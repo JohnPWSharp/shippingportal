@@ -19,12 +19,12 @@ sudo cp default /etc/nginx/sites-available
 sudo systemctl restart nginx
 
 # Download shipping portal application from git
-git clone https://github.com/JohnPWSharp/shippingportal/ shippingportal
+git clone https://github.com/<shippingportal-repo> shippingportal
 dotnet new web -n shippingportal
 cd shippingportal
 dotnet build
-dotnet publish -o ./published -c Release
-cd published
+dotnet publish -o published -c Release
+cd shippingportal/published
 
 sudo mkdir /var/www/shippingportal
 sudo cp * /var/www/shippingportal
