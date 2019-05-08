@@ -24,7 +24,7 @@ dotnet new web -n shippingportal
 cd shippingportal
 dotnet build
 dotnet publish -o published -c Release
-cd /home/azureuser/shippingportal/published/
+cd /home/azureuser/ShippingPortal/published/
 
 sudo mkdir /var/www/shippingportal
 sudo cp * /var/www/shippingportal
