@@ -5,7 +5,7 @@ az network vnet create --resource-group $rgName --name shippingportalvnet
 az network vnet subnet create --resource-group $rgName --vnet-name shippingportalvnet  --name appgatewaysubnet --address-prefixes "10.0.0.0/24"
 
 # Create public IP address for the gateway
-az network public-ip create --resource-group $rgName --name appgwipaddr --sku Standard 
+az network public-ip create --resource-group $rgName --name appgwipaddr --sku Basic
 
 # Create the App gateway
 az network application-gateway create --name gw-shipping --resource-group $rgName --vnet-name shippingportalvnet --subnet appgatewaysubnet --capacity 2 --sku Standard_Small --http-settings-cookie-based-affinity Disabled --http-settings-protocol Http --frontend-port 80 --routing-rule-type Basic --http-settings-port 80 --public-ip-address appgwipaddr --no-wait
@@ -29,5 +29,5 @@ openssl pkcs12 -export -out server-config/shipping-ssl.pfx -inkey server-config/
 # Create an ssh connection to the VM
 ipaddress="$(az vm show --name webservervm1 --resource-group $rgName --show-details --query [publicIps] --output tsv)"
 
-scp -o StrictHostKeyChecking=no -r server-config/ azureuser@$ipaddress:/home/azureuser/
-ssh -o StrictHostKeyChecking=no "azureuser@$ipaddress" "bash /home/azureuser/server-config/setup-vm.sh"
+scp -o StrictHostKeyChecking=no -r shippingporta/ azureuser@$ipaddress:/home/azureuser/
+ssh -o StrictHostKeyChecking=no "azureuser@$ipaddress" "bash /home/azureuser/shippingportal/server-config/setup-vm.sh"
