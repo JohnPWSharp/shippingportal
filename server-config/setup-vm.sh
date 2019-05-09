@@ -11,10 +11,10 @@ sudo apt-get install nginx -y
 
 # Copy SSL certificates to nginx
 sudo mkdir /etc/nginx/ssl
-sudo cp shipping* /etc/nginx/ssl
+sudo cp /home/azureuser/shippingportal/server-config/shipping-* /etc/nginx/ssl
 
 # Setup nginx reverse proxy for dotnet core
-sudo cp default /etc/nginx/sites-available
+sudo cp /home/azureuser/shippingportal/server-config/default /etc/nginx/sites-available
 
 sudo systemctl restart nginx
 
