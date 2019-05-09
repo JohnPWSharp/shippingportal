@@ -29,5 +29,5 @@ openssl pkcs12 -export -out server-config/shipping-ssl.pfx -inkey server-config/
 # Create an ssh connection to the VM
 ipaddress="$(az vm show --name webservervm1 --resource-group $rgName --show-details --query [publicIps] --output tsv)"
 
-scp -o StrictHostKeyChecking=no -r shippingportal/ azureuser@$ipaddress:/home/azureuser/
+scp -o StrictHostKeyChecking=no -r $HOME/shippingportal/ azureuser@$ipaddress:/home/azureuser/
 ssh -o StrictHostKeyChecking=no "azureuser@$ipaddress" "bash /home/azureuser/shippingportal/server-config/setup-vm.sh"
