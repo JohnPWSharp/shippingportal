@@ -22,12 +22,13 @@ az vm open-port --port 80 --resource-group $rgName --name webservervm1
 # Open port 443 to allow web traffic to host.
 az vm open-port --port 443 --resource-group $rgName --name webservervm1 --priority 110
 
-# Create SSL certificate
-openssl req -x509 -subj '/O=RetailCo/C=US' -sha256 -nodes -days 365 -newkey "rsa:2048" -keyout server-config/shipping-privatekey.key -out server-config/shipping-ssl.crt
-openssl pkcs12 -export -out server-config/shipping-ssl.pfx -inkey server-config/shipping-privatekey.key -in server-config/shipping-ssl.crt  -passout pass:somepassword
-
-# Create an ssh connection to the VM
+# Get the public IP address of the VM
 ipaddress="$(az vm show --name webservervm1 --resource-group $rgName --show-details --query [publicIps] --output tsv)"
 
+# Create SSL certificate
+openssl req -x509 -subj '/O=RetailCo/C=US/CN='$ipaddress -sha256 -nodes -days 365 -newkey "rsa:2048" -keyout server-config/shipping-privatekey.key -out server-config/shipping-ssl.crt
+openssl pkcs12 -export -out server-config/shipping-ssl.pfx -inkey server-config/shipping-privatekey.key -in server-config/shipping-ssl.crt  -passout pass:somepassword
+
+# Copy the certificate and key files, and create an ssh connection to the VM
 scp -o StrictHostKeyChecking=no -r $HOME/shippingportal/ azureuser@$ipaddress:/home/azureuser/
 ssh -o StrictHostKeyChecking=no "azureuser@$ipaddress" "bash /home/azureuser/shippingportal/server-config/setup-vm.sh"
