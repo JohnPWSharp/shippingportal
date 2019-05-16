@@ -26,7 +26,7 @@ az vm open-port --port 443 --resource-group $rgName --name webservervm1 --priori
 fqdn="$(az network public-ip show \
       --resource-group $rgName \
       --name appgwipaddr \
-      --query "dnsSettings.fqdn)"
+      --query "dnsSettings.fqdn")"
 
 # Create SSL certificate for termination at Application Gateway
 openssl req -x509 -subj '/O=RetailCo/C=US/CN='$fqdn -sha256 -nodes -days 365 -newkey "rsa:2048" -keyout server-config/appgateway-privatekey.key -out server-config/appgateway.crt
