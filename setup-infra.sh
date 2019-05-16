@@ -29,7 +29,7 @@ fqdn=`az network public-ip show \
       --query "dnsSettings.fqdn"`
 
 # Create SSL certificate for termination at Application Gateway
-openssl req -x509 -subj '/O=RetailCo/C=US/CN='$fqdn -sha256 -nodes -days 365 -newkey "rsa:2048" -keyout server-config/appgateway-privatekey.key -out server-config/app-gateway.crt
+openssl req -x509 -subj '/O=RetailCo/C=US/CN='$fqdn -sha256 -nodes -days 365 -newkey "rsa:2048" -keyout server-config/appgateway-privatekey.key -out server-config/appgateway.crt
 openssl pkcs12 -export -out server-config/appgateway.pfx -inkey server-config/appgateway-privatekey.key -in server-config/appgateway.crt  -passout pass:somepassword
 
 # Get the private IP address of the VM
